@@ -34,6 +34,11 @@ func clean() error {
 	return nil
 }
 
+func msgSlug(s string) string {
+	b := sha256.Sum256([]byte(s))
+	return hex.EncodeToString(b[:20])
+}
+
 func main() {
 	var mailserver string
 	var accept string
@@ -83,6 +88,9 @@ title: %s
 date: %s
 ---
 %s
-`, env.GetHeader("Subject"), time.Now().Format(`2006-01-02 15:04:05.999999999 -0700 MST`), body)
+`, env.GetHeader("Subject"), time.Now().Format(`2006-01-02 15:04:05.999999999 -0700 MST`), body
+
+
+	slug := msgSlug(env.GetHeader("Subject"))
 
 }
